@@ -1,0 +1,24 @@
+Loading sample_resume.pdf...
+[OK] Resume loaded. Length: 1605 characters.
+
+[AI] Analyzing the candidate...
+
+==================================================
+         SCREENING REPORT
+==================================================
+
+Candidate: John Smith
+Match Score: 98/100
+Decision: INTERVIEW
+
+Key Strengths:
+   - Full technical alignment with the core stack including Python (Pandas, NumPy, Scikit-Learn) and SQL experience
+   - Strong professional track record of applying Machine Learning algorithms to business problems like customer churn
+   - Possesses both 'nice-to-have' criteria including AWS Cloud Practitioner certification and NLP project experience
+
+Missing Skills:
+   - None identified
+
+Reasoning: John Smith is an exceptional match who meets all mandatory requirements and possesses both of the preferred 'nice-to-have' skills in Cloud and NLP. His background as a Junior Data Analyst with a CS degree from a top-tier university provides the perfect foundation for a Junior Data Scientist role.
+
+==================================================
