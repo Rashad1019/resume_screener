@@ -1,23 +1,30 @@
-# Build an AI Resume Screener with Python & Gemini
+# Build an AI Resume Screener with Python & Llama 3
 
-An AI-powered resume screening tool that uses Google's Gemini API to evaluate resumes against job descriptions.
+An AI-powered resume screening tool that uses Ollama with Llama 3 to evaluate resumes against job descriptions locally on your machine.
 
 ---
 
 ## Part 1: The Setup
 
-Before writing code, we need to set up our environment.
+Before writing code, we need to set up our environment. We are keeping this private and free by running the AI locally on your machine.
 
-### 1. Install Python Libraries
+### 1. Install Ollama
 
-Run this in your terminal:
+First, we need an engine to run our AI model. Ollama is the easiest way to run open-source LLMs locally. Download it from [ollama.com](https://ollama.com).
+
+### 2. Pull the Model
+
+Once installed, open your terminal/command prompt and run:
 ```bash
-pip install google-generativeai pymupdf
+ollama pull llama3
 ```
 
-### 2. Get a Gemini API Key
+### 3. Install Python Libraries
 
-Get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
+Next, we need Python to interact with Ollama and to read PDF files. Run this in your terminal:
+```bash
+pip install ollama pymupdf
+```
 
 ---
 
@@ -49,10 +56,7 @@ This is the key part of our AI Resume Screener. We aren't just sending text; we 
 Here, we tell the AI that it has 20 years of experience, which changes its behavior to be more critical and nuanced. We also explicitly ask for a valid JSON format only, which is crucial for using the data programmatically later.
 
 ```python
-import google.generativeai as genai
-
-genai.configure(api_key="your-gemini-api-key")
-model = genai.GenerativeModel('gemini-3-flash-preview')
+import ollama
 
 def screen_resume(resume_text, job_description):
     prompt = f"""
@@ -81,8 +85,10 @@ def screen_resume(resume_text, job_description):
     }}
     """
     
-    response = model.generate_content(prompt)
-    return response.text
+    response = ollama.chat(model='llama3', messages=[
+        {'role': 'user', 'content': prompt},
+    ])
+    return response['message']['content']
 ```
 
 ### Step 3: The Execution
@@ -117,7 +123,7 @@ except Exception as e:
     exit()
 
 # 3. The Screening (The Processing)
-print("AI is analyzing the candidate... (this may take a few seconds)")
+print("AI is analyzing the candidate... (this may take a few seconds on local hardware)")
 result_json_string = screen_resume(resume_text, job_description)
 
 # 4. Parse and Display Results
@@ -145,7 +151,7 @@ Here is an example of what the output might look like when running the script:
 
 ```
 Resume loaded. Length: 2802 characters.
-AI is analyzing the candidate... (this may take a few seconds)
+AI is analyzing the candidate... (this may take a few seconds on local hardware)
 
 --- SCREENING REPORT ---
 Candidate: Aman Kharwal
@@ -155,7 +161,7 @@ Reasoning: Aman has demonstrated strong technical skills in machine learning and
 Missing Skills: SQL
 ```
 
-**Note:** If your resume lists "Linear Regression" and "Random Forests," but the JD asks for "Machine Learning algorithms," a traditional keyword search might fail. Gemini understands that those ARE machine learning algorithms.
+**Note:** If your resume lists "Linear Regression" and "Random Forests," but the JD asks for "Machine Learning algorithms," a traditional keyword search might fail. Llama 3 understands that those ARE machine learning algorithms.
 
 ---
 
@@ -171,4 +177,4 @@ This project teaches three critical GenAI skills:
 
 ## Credits
 
-Based on the tutorial **"Build an AI Resume Screener with Python & Llama 3"** by **Aman Kharwal**. Adapted to use Google's Gemini API.
+Based on the tutorial **"Build an AI Resume Screener with Python & Llama 3"** by **Aman Kharwal**.
