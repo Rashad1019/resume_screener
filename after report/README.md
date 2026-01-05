@@ -6,20 +6,26 @@ An AI-powered resume screening tool built with Python and Google's Gemini API. T
 
 ---
 
-## ✨ Key Features
+## ✨ New Features (Added to Original Tutorial)
 
-- **🤖 AI-Powered Analysis:** Uses Google's `gemini-3-flash-preview` to deeply understand resume content vs job requirements.
-- **📂 Batch Processing:** Screen an entire folder of PDF resumes in one go.
-- **📝 Custom Job Descriptions:** 
-  - Choose from 6 preset roles (Data Scientist, Software Engineer, etc.)
-  - **Auto-Generate:** Enter a simple title (e.g., "React Developer") and let AI write the JD.
-  - **Manual Input:** Paste your specific job description text.
-- **📊 structured Reporting:**
-  - Match Score (0-100)
-  - Decision (Interview/Reject)
-  - Key Strengths & Missing Skills
-  - Detailed Reasoning
-- **💾 Auto-Save:** Results are automatically saved to the `results/` folder with unique filenames.
+We enhanced the original project with these production-ready capabilities:
+
+- **1. 📂 Batch Processing:** 
+  - Screen an entire folder of PDF resumes in one go.
+  - Automatically iterates through all files and generates a summary report.
+
+- **2. 📝 Flexible Job Descriptions:** 
+  - **Presets:** Choose from 6 common roles (Data Scientist, Software Engineer, etc.)
+  - **Auto-Generate:** Enter a simple title (e.g., "React Developer") and the AI creates the JD.
+  - **Custom Input:** Paste your specific job description text.
+
+- **3. 🤖 Google Gemini Integration:** 
+  - Replaced local Llama 3 with **Gemini 1.5 Flash** for faster, cloud-based inference.
+  - No need to install Ollama or download heavy models.
+
+- **4. 💾 Auto-Save & Structured Reporting:**
+  - Every session saves a detailed text report to the `results/` folder.
+  - Reports include Match Score, Decision, Strengths, Missing Skills, and Reasoning.
 
 ---
 
