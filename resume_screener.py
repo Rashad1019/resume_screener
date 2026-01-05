@@ -10,10 +10,8 @@ import os
 from datetime import datetime
 from glob import glob
 
-# Configure Gemini - Set your API key here or use environment variable
-# Get your API key from: https://aistudio.google.com/app/apikey
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "your-gemini-api-key")
-genai.configure(api_key=GEMINI_API_KEY)
+# Configure Gemini
+genai.configure(api_key="AIzaSyBsPk0PNrdfnhWrddIhV9ORYQifi3UEODs")
 
 # Initialize the Gemini model
 model = genai.GenerativeModel('gemini-3-flash-preview')
