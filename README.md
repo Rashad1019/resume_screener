@@ -1,174 +1,174 @@
-# AI Resume Screener
+# Build an AI Resume Screener with Python & Gemini
 
-An AI-powered resume screening tool built with Python and Google's Gemini API. This tool helps recruiters and hiring managers quickly evaluate resumes against job descriptions using advanced AI analysis.
+An AI-powered resume screening tool that uses Google's Gemini API to evaluate resumes against job descriptions.
 
-## 🙏 Credits
+---
 
-This project is based on the excellent tutorial **"Build an AI Resume Screener with Python & Llama 3"** by **[Aman Kharwal](https://thecleverprogrammer.com/)**. The original tutorial used Ollama with Llama 3 for local inference. This version has been adapted to use **Google's Gemini API** for cloud-based AI processing.
+## Part 1: The Setup
 
-Thank you, Aman, for the fantastic tutorial and inspiration!
+Before writing code, we need to set up our environment.
 
-## ✨ Features
+### 1. Install Python Libraries
 
-- **Single Resume Screening**: Analyze one resume at a time
-- **Batch Processing**: Screen multiple resumes from a folder simultaneously
-- **Multiple Job Roles**: Choose from 6 preset job descriptions or create custom ones
-- **AI-Generated Job Descriptions**: Just enter a role title and let AI create the JD
-- **Detailed Reports**: Get match scores, strengths, missing skills, and recommendations
-- **Auto-Save Results**: All screening results saved to individual files with timestamps
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- Python 3.8 or higher
-- A Google Gemini API key ([Get one here](https://aistudio.google.com/app/apikey))
-
-### Installation
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/resume_screener.git
-   cd resume_screener
-   ```
-
-2. **Create a virtual environment (recommended):**
-   ```bash
-   python -m venv .venv
-   
-   # Windows
-   .venv\Scripts\activate
-   
-   # macOS/Linux
-   source .venv/bin/activate
-   ```
-
-3. **Install dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Add your Gemini API key:**
-   
-   Open `resume_screener.py` and replace `"your-gemini-api-key"` on line 11 with your actual API key:
-   ```python
-   genai.configure(api_key="YOUR_ACTUAL_API_KEY")
-   ```
-
-### Usage
-
-Run the main script:
+Run this in your terminal:
 ```bash
-python resume_screener.py
+pip install google-generativeai pymupdf
 ```
 
-You'll see the main menu:
-```
-==================================================
-      AI RESUME SCREENER
-==================================================
+### 2. Get a Gemini API Key
 
-Select mode:
-  [1] Screen single resume
-  [2] Screen batch (folder of resumes)
-==================================================
-```
+Get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
 
-## 📋 How It Works
+---
 
-### The Three Parts
+## Part 2: Building the Screener
 
-Based on Aman Kharwal's tutorial, the screener consists of three main components:
+We'll break the process into three digestible parts: **The Reader**, **The Brain**, and **The Execution**.
 
-1. **The Reader**: Uses PyMuPDF to extract text from PDF resumes
-2. **The Brain**: Prompt engineering that gives the AI a "Senior Technical Recruiter" persona with 20 years of experience
-3. **The Execution**: Handles input, processes resumes, and outputs structured results
+### Step 1: The Reader
 
-### Job Role Options
+LLMs can't see PDF files directly; they need raw text. We use PyMuPDF (imported as `fitz`) to strip the text layer from the document.
 
-The screener comes with 6 preset job descriptions:
-- Junior Data Scientist
-- Software Engineer
-- Data Analyst
-- Fintech Operations Specialist
-- Product Manager
-- Customer Success Manager
+Data ingestion is often the messiest part of Data Science. If you feed garbage text (encoding errors, weird formatting) into the AI, you will get garbage results. This function iterates through every page and stitches the text together.
 
-You can also:
-- **Option A**: Enter a role title and let AI generate the job description
-- **Option B**: Paste your own custom job description
-
-### Output Format
-
-For each resume, you'll get:
-```
-==================================================
-         SCREENING REPORT
-==================================================
-
-Candidate: John Smith
-Match Score: 85/100
-Decision: INTERVIEW
-
-Key Strengths:
-   - Strong Python skills with Pandas and NumPy
-   - SQL experience with PostgreSQL
-   - Machine Learning project experience
-
-Missing Skills:
-   - AWS or cloud deployment experience
-
-Reasoning: The candidate demonstrates solid technical 
-fundamentals for a Junior Data Scientist role...
-
-==================================================
-```
-
-## 📁 Project Structure
-
-```
-resume_screener/
-├── resume_screener.py      # Main application
-├── requirements.txt        # Python dependencies
-├── sample_resume.pdf       # Sample resume for testing
-├── create_sample_resume.py # Script to generate sample PDFs
-├── results/                # Folder where results are saved
-└── README.md               # This file
-```
-
-## 🔧 Configuration
-
-### Changing the AI Model
-
-The default model is `gemini-3-flash-preview`. To use a different Gemini model, edit line 14 in `resume_screener.py`:
 ```python
-model = genai.GenerativeModel('gemini-2.0-flash')  # or another model
+import fitz
+
+def extract_text_from_pdf(pdf_path):
+    doc = fitz.open(pdf_path)
+    text = ""
+    for page in doc:
+        text += page.get_text()
+    return text
 ```
 
-### Adding New Job Descriptions
+### Step 2: The Brain
 
-Add new preset job descriptions in the `JOB_DESCRIPTIONS` dictionary in `resume_screener.py`.
+This is the key part of our AI Resume Screener. We aren't just sending text; we are "prompt engineering." We give the AI a persona (Senior Technical Recruiter) and specific constraints (JSON format).
 
-## 📖 Original Tutorial Concepts
+Here, we tell the AI that it has 20 years of experience, which changes its behavior to be more critical and nuanced. We also explicitly ask for a valid JSON format only, which is crucial for using the data programmatically later.
 
-From Aman Kharwal's tutorial, this project teaches three critical GenAI skills:
+```python
+import google.generativeai as genai
 
-1. **Context Window Management**: Understanding how much text (Resume + JD) fits into the prompt
-2. **Structured Output**: Forcing a creative AI to produce structured JSON data
-3. **Prompt Engineering**: Using personas and constraints to get better AI responses
+genai.configure(api_key="your-gemini-api-key")
+model = genai.GenerativeModel('gemini-3-flash-preview')
 
-## ⚠️ Notes
+def screen_resume(resume_text, job_description):
+    prompt = f"""
+    You are a Senior Technical Recruiter with 20 years of experience.
+    Your goal is to objectively evaluate a candidate based on the Job Description and their Resume
 
-- Results are saved to the `results/` folder with unique filenames (CandidateName_timestamp.txt)
-- The AI uses semantic matching - "React" matches "React.js", "ML" matches "Machine Learning"
-- For best results, ensure resumes are text-based PDFs (not scanned images)
+    JOB DESCRIPTION:
+    {job_description}
+    
+    CANDIDATE RESUME:
+    {resume_text}
+    
+    TASK:
+    Analyze the resume against the JD. Look for specific keywords, experience levels, and nuance.
+    Be strict but fair. "React" matches "React.js".
+    
+    OUTPUT FORMAT:
+    Provide the response in valid JSON format only. Do not add any conversational text. Use this structure:
+    {{
+        "candidate_name": "extracted name",
+        "match_score": "0-100",
+        "key_strengths": ["list of 3 key strengths"],
+        "missing_critical_skills": ["list of missing skills"],
+        "recommendation": "Interview" or "Reject",
+        "reasoning": "A 2-sentence summary of why"
+    }}
+    """
+    
+    response = model.generate_content(prompt)
+    return response.text
+```
 
-## 📝 License
+### Step 3: The Execution
 
-This project is open source and available under the MIT License.
+Now, we define our standard (the Job Description), load our input (the Resume), and handle the output.
 
-## 🔗 Links
+```python
+import json
 
-- [Original Tutorial by Aman Kharwal](https://thecleverprogrammer.com/)
-- [Google Gemini API Documentation](https://ai.google.dev/docs)
-- [PyMuPDF Documentation](https://pymupdf.readthedocs.io/)
+# 1. Define the Job Description (The Standard)
+job_description = """
+We are looking for a Junior Data Scientist.
+Must have:
+- Experience with SQL
+- Python (Pandas, NumPy, Scikit-Learn)
+- Basic understanding of Machine Learning algorithms
+- Good communication skills
+Nice to have:
+- Experience with AWS or Cloud deployment
+- Knowledge of NLP
+"""
+
+# 2. Load the Resume (The Input)
+# NOTE: Replace the path below with your actual PDF path
+pdf_path = "/path/to/your/resume.pdf"
+
+try:
+    resume_text = extract_text_from_pdf(pdf_path)
+    print(f"Resume loaded. Length: {len(resume_text)} characters.")
+except Exception as e:
+    print(f"Error loading resume: {e}")
+    exit()
+
+# 3. The Screening (The Processing)
+print("AI is analyzing the candidate... (this may take a few seconds)")
+result_json_string = screen_resume(resume_text, job_description)
+
+# 4. Parse and Display Results
+try:
+    # Sometimes LLMs wrap JSON in ```json blocks. We clean that up.
+    clean_json = result_json_string.replace("```json", "").replace("```", "").strip()
+    result_data = json.loads(clean_json)
+    
+    print("\n--- SCREENING REPORT ---")
+    print(f"Candidate: {result_data.get('candidate_name')}")
+    print(f"Score: {result_data.get('match_score')}/100")
+    print(f"Decision: {result_data.get('recommendation')}")
+    print(f"Reasoning: {result_data.get('reasoning')}")
+    print(f"Missing Skills: {', '.join(result_data.get('missing_critical_skills', []))}")
+except json.JSONDecodeError:
+    print("Failed to parse JSON. Raw output:")
+    print(result_json_string)
+```
+
+---
+
+## Example Output
+
+Here is an example of what the output might look like when running the script:
+
+```
+Resume loaded. Length: 2802 characters.
+AI is analyzing the candidate... (this may take a few seconds)
+
+--- SCREENING REPORT ---
+Candidate: Aman Kharwal
+Score: 92/100
+Decision: INTERVIEW
+Reasoning: Aman has demonstrated strong technical skills in machine learning and Python, making him a suitable candidate.
+Missing Skills: SQL
+```
+
+**Note:** If your resume lists "Linear Regression" and "Random Forests," but the JD asks for "Machine Learning algorithms," a traditional keyword search might fail. Gemini understands that those ARE machine learning algorithms.
+
+---
+
+## Closing Thoughts
+
+This project teaches three critical GenAI skills:
+
+1. **Context Window Management**: Understanding how much text (Resume + JD) fits into the prompt.
+2. **Structured Output**: Forcing a creative writer (the LLM) to act like a database (JSON).
+3. **Local Inference**: Running AI without sending private data to the cloud (crucial for GDPR and privacy in HR).
+
+---
+
+## Credits
+
+Based on the tutorial **"Build an AI Resume Screener with Python & Llama 3"** by **Aman Kharwal**. Adapted to use Google's Gemini API.
