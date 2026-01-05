@@ -1,8 +1,8 @@
-# AI Resume Screener with Python & Gemini
+# AI Resume Screener with Python & Llama 3
 
-An AI-powered resume screening tool built with Python and Google's Gemini API. This tool helps recruiters and hiring managers quickly evaluate resumes against job descriptions using advanced AI analysis.
+An AI-powered resume screening tool built with Python and Llama 3 (via Ollama). This tool helps recruiters and hiring managers quickly evaluate resumes against job descriptions using local AI analysis.
 
-> **Note:** This project is based on the tutorial **"Build an AI Resume Screener with Python & Llama 3"** by **Aman Kharwal**, adapted to use **Google's Gemini API** for cloud-based inference and enhanced with batch processing capabilities.
+> **Note:** This project is based on the tutorial **"Build an AI Resume Screener with Python & Llama 3"** by **Aman Kharwal**. We've enhanced it with batch processing and custom job description capabilities.
 
 ---
 
@@ -19,9 +19,9 @@ We enhanced the original project with these production-ready capabilities:
   - **Auto-Generate:** Enter a simple title (e.g., "React Developer") and the AI creates the JD.
   - **Custom Input:** Paste your specific job description text.
 
-- **3. 🤖 Google Gemini Integration:** 
-  - Replaced local Llama 3 with **Gemini 1.5 Flash** for faster, cloud-based inference.
-  - No need to install Ollama or download heavy models.
+- **3. 🤖 Local Llama 3 Integration:** 
+  - Uses **Ollama** to run Llama 3 locally on your machine.
+  - Private, free, and secure - no data leaves your computer.
 
 - **4. 💾 Auto-Save & Structured Reporting:**
   - Every session saves a detailed text report to the `results/` folder.
@@ -31,22 +31,15 @@ We enhanced the original project with these production-ready capabilities:
 
 ## 🚀 Setup
 
-1. **Install Dependencies:**
+1. **Install Ollama:**
+   Download from [ollama.com](https://ollama.com) and run:
    ```bash
-   pip install google-generativeai pymupdf
+   ollama pull llama3
    ```
 
-2. **Configure API Key:**
-   Get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
-   
-   Set it as an environment variable (Recommended):
+2. **Install Python Libraries:**
    ```bash
-   # Windows PowerShell
-   $env:GEMINI_API_KEY="your-api-key-here"
-   ```
-   Or update the `resume_screener.py` file directly:
-   ```python
-   genai.configure(api_key="your-actual-api-key")
+   pip install ollama pymupdf
    ```
 
 ---
@@ -75,7 +68,7 @@ Choose a preset or define your own:
 ### 3. Review Results
 - **Terminal:** Summary results are printed immediately.
 - **Files:** Detailed reports are saved to:
-  - `results/CandidateName_Date.txt` (Individual reports)
+  - `results/CandidateName_timestamp.txt` (Individual reports)
   - `screening_results.txt` (Last run summary)
 
 ---

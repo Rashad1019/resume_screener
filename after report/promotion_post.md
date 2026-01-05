@@ -2,11 +2,11 @@
 
 ## 👔 LinkedIn (Professional/Technical Audience)
 
-**Headline:** Building my own AI Recruiter with Python & Gemini 🚀
+**Headline:** Building my own AI Recruiter with Python & Llama 3 🚀
 
 I just engaged in a fun weekend build: an **AI Resume Screener** that automates the candidate evaluation process.
 
-Inspired by a tutorial from Aman Kharwal, I adapted the concept to use **Google's Gemini API** for faster, cloud-based inference and added some powerful new features:
+Inspired by a tutorial from Aman Kharwal, I built this using **Ollama & Llama 3** for private, local AI inference and added some powerful new features:
 
 ✅ **Batch Processing:** Screen an entire folder of PDFs in one click.  
 ✅ **Dynamic Role Generation:** Type a job title, and the AI writes the Job Description for you.  
@@ -19,7 +19,7 @@ It's a great example of how accessible Agentic AI has become. No complex trainin
 Check out the code on GitHub! 👇  
 [Link to your GitHub Repo]
 
-#Python #AI #Gemini #MachineLearning #RecruitmentTech #BuildInPublic
+#Python #AI #Llama3 #Ollama #MachineLearning #RecruitmentTech #BuildInPublic
 
 ---
 
@@ -27,7 +27,9 @@ Check out the code on GitHub! 👇
 
 Just built an AI Resume Screener! 🤖📄
 
-Fed up with manual review? This Python script reads PDF resumes and uses Google Gemini to score them against any job description.
+Just built an AI Resume Screener! 🤖📄
+
+Fed up with manual review? This Python script reads PDF resumes and uses Llama 3 (via Ollama) to score them against any job description locally.
 
 New features added:
 1️⃣ Batch mode (Screen 50 resumes at once)

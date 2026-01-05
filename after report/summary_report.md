@@ -7,7 +7,7 @@ Recruiters and hiring managers spend countless hours manually reviewing resumes.
 - **Keyword-Dependent:** Traditional ATS systems miss "semantic matches" (e.g., rejecting "React" when looking for "React.js").
 
 ## 💡 The Solution
-The **AI Resume Screener** automates the initial evaluation stage using Large Language Models (LLMs). By utilizing **Google's Gemini API**, the tool acts as a "Senior Technical Recruiter" with 20 years of experience.
+The **AI Resume Screener** automates the initial evaluation stage using Large Language Models (LLMs). By utilizing **Ollama & Llama 3**, the tool acts as a "Senior Technical Recruiter" running privately on your local machine.
 
 It doesn't just look for keywords; it **understands context**.
 

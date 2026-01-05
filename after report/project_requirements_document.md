@@ -6,7 +6,7 @@
 
 ---
 
-## 📋 Project: AI Resume Screener (Gemini Edition)
+## 📋 Project: AI Resume Screener (Llama 3 Local Edition)
 
 **Author:** Rashad Ferguson  
 **Email:** Rashad19@outlook.com  
@@ -20,7 +20,7 @@
 **File:** [README.md](README.md)
 
 **Included:**
-- ✅ Project overview (AI-powered screening using Google Gemini)
+- ✅ Project overview (AI-powered screening using Ollama/Llama 3)
 - ✅ Key Features:
     - **Batch Processing:** Screen entire folders of resumes at once.
     - **Flexible Job Descriptions:** Use presets or generate custom JDs on the fly.
@@ -50,7 +50,7 @@
 **File:** [../resume_screener.py](../resume_screener.py) (Main Application)
 
 **Technical Details:**
-- **Core Engine:** Google Gemini Pro (`gemini-3-flash-preview`) for semantic analysis.
+- **Core Engine:** Meta Llama 3 (via `ollama`) for semantic analysis.
 - **PDF Processing:** `PyMuPDF` for fast and accurate text extraction.
 - **Architecture:** 
     - `extract_text_from_pdf`: Ingestion layer.
@@ -69,7 +69,7 @@
 - ✅ Post for Technical Network (Python/AI focus)
 - ✅ Post for Recruiter/HR Network (Efficiency focus)
 - ✅ Key features highlighted (Batch mode, Custom Roles)
-- ✅ Hashtags: #AI #Python #Gemini #RecruitmentTech
+- ✅ Hashtags: #AI #Python #Llama3 #RecruitmentTech
 
 ---
 
